@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "spriteVersionNumber": 2,
+  "run_dir": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko",
+  "spritesheet": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\final\\spritesheet-extended.webp",
+  "validation": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\final\\validation-extended.json",
+  "chroma_despill": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\qa\\chroma-despill-extended.json",
+  "contact_sheet": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\qa\\contact-sheet-extended.png",
+  "direction_sheet": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\qa\\look-directions.png",
+  "direction_semantics": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\qa\\direction-semantics.json",
+  "blind_direction_validation": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\qa\\direction-blind-validation.json",
+  "continuity": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\qa\\look-continuity.json",
+  "review": "C:\\Users\\YENG\\Documents\\Kapehan\\.pet-work\\piko\\qa\\review.json",
+  "package": "C:\\Users\\YENG\\.codex\\pets\\piko"
+}
