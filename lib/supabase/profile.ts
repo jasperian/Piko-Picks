@@ -1,22 +1,17 @@
+import { cache } from "react";
+import { getCurrentUser } from "@/lib/supabase/current-user";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type AppRole = "guest" | "customer" | "shop_owner" | "admin";
 
-export async function getCurrentUserRole(): Promise<AppRole> {
-  const supabase = createSupabaseServerClient();
-
-  if (!supabase) {
-    return "guest";
-  }
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
+export const getCurrentUserRole = cache(async (): Promise<AppRole> => {
+  const user = await getCurrentUser();
 
   if (!user) {
     return "guest";
   }
 
+  const supabase = createSupabaseServerClient()!;
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).maybeSingle();
   const role = profile?.role;
 
@@ -25,18 +20,8 @@ export async function getCurrentUserRole(): Promise<AppRole> {
   }
 
   return user.user_metadata.role === "customer" ? "customer" : "shop_owner";
-}
+});
 
 export async function hasSupabaseSession() {
-  const supabase = createSupabaseServerClient();
-
-  if (!supabase) {
-    return false;
-  }
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  return Boolean(user);
+  return Boolean(await getCurrentUser());
 }

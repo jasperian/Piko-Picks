@@ -1,5 +1,6 @@
 import { demoFeedPosts, emptyReactionCounts } from "@/lib/feed";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/supabase/current-user";
 import type { FeedComment, FeedPost, FeedReactionType } from "@/lib/types";
 
 type ProfileRelation = { full_name: string | null; email: string | null } | { full_name: string | null; email: string | null }[] | null;
@@ -30,17 +31,13 @@ export async function getFeedPosts(): Promise<FeedPost[]> {
     return demoFeedPosts;
   }
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  const { data, error } = await supabase
+  const [user, { data, error }] = await Promise.all([getCurrentUser(), supabase
     .from("feed_posts")
     .select(
       "id, title, body, topic, created_at, profiles(full_name, email), feed_comments(id, body, created_at, profiles(full_name, email)), feed_reactions(user_id, reaction_type)"
     )
     .order("created_at", { ascending: false })
-    .order("created_at", { referencedTable: "feed_comments", ascending: true });
+    .order("created_at", { referencedTable: "feed_comments", ascending: true })]);
 
   if (error || !data) {
     return demoFeedPosts;

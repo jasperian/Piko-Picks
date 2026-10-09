@@ -2,6 +2,7 @@ import { demoShops } from "@/lib/demo-data";
 import { buildOwnerInsights, emptyAnalyticsSummary, type AnalyticsEventType, type AnalyticsSummary, type OwnerInsights } from "@/lib/analytics";
 import type { CoffeeShop, Review } from "@/lib/types";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/supabase/current-user";
 import { getPublicShops } from "@/lib/supabase/queries";
 
 export type DashboardData = {
@@ -29,9 +30,7 @@ export async function getShopDashboardData(selectedShopId?: string): Promise<Das
     };
   }
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     return {

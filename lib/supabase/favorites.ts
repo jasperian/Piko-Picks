@@ -1,6 +1,7 @@
 import { defaultSavedCollections, type SavedCollection } from "@/lib/collections";
 import { getPublicShops } from "@/lib/supabase/queries";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/supabase/current-user";
 
 export async function getSavedLibraryForCurrentUser(): Promise<{ signedIn: boolean; favoriteShopIds: string[]; collections: SavedCollection[] }> {
   const supabase = createSupabaseServerClient();
@@ -9,9 +10,7 @@ export async function getSavedLibraryForCurrentUser(): Promise<{ signedIn: boole
     return { signedIn: false, favoriteShopIds: [], collections: [] };
   }
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     return { signedIn: false, favoriteShopIds: [], collections: [] };
