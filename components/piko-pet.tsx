@@ -75,7 +75,7 @@ export function PikoPet({ mode = "idle" }: { mode?: PetMode }) {
         aria-hidden="true"
         className="absolute inset-0 bg-no-repeat [image-rendering:auto] transition-transform duration-200 group-hover:scale-[1.03]"
         style={{
-          backgroundImage: "url('/piko-pet.webp')",
+          backgroundImage: "url('/piko-pet-optimized.webp')",
           backgroundSize: "800% 1100%",
           backgroundPosition: `${(frame / 7) * 100}% ${(animation.row / 10) * 100}%`
         }}

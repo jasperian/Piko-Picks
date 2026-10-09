@@ -1,4 +1,5 @@
 "use client";
+import { ContentImage } from "@/components/content-image";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -138,14 +139,14 @@ export function SavedCollections({ shops, signedIn, initialFavoriteShopIds, init
       )}
 
       {visibleShops.length > 0 ? (
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {visibleShops.map((shop) => {
             const memberships = collections.filter((collection) => collection.shopIds.includes(shop.id));
             const openNow = isShopOpenNow(shop.weeklyHours);
 
             return (
               <article key={shop.id} className="overflow-hidden rounded-lg border border-roast/10 bg-white shadow-sm">
-                <img src={shop.coverImageUrl} alt="" className="h-44 w-full object-cover" />
+                <div className="relative h-44"><ContentImage src={shop.coverImageUrl} alt="" sizes="(min-width: 1280px) 400px, (min-width: 768px) 50vw, 100vw" className="object-cover" /></div>
                 <div className="space-y-4 p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div><h2 className="text-xl font-extrabold text-roast">{shop.name}</h2><p className={`mt-1 text-sm font-bold ${openNow ? "text-lagoon" : "text-clay"}`}>{formatOpenStatus(shop.weeklyHours)}</p></div>

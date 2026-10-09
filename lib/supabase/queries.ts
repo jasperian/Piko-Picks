@@ -77,29 +77,32 @@ type PublicShopSearchRow = {
   matching_drink_count: number;
 };
 
-export async function getPublicShops(): Promise<CoffeeShop[]> {
+export async function getPublicShops(shopId?: string): Promise<CoffeeShop[]> {
   const supabase = createSupabaseServerClient();
 
   if (!supabase) {
-    return demoShops;
+    return shopId ? demoShops.filter((shop) => shop.id === shopId) : demoShops;
   }
 
-  const { data, error } = await supabase
+  let query = supabase
     .from("shops")
     .select(
       "id, owner_id, name, description, status, plan, created_at, updated_at, phone, website, facebook_url, instagram_url, cover_image_url, opening_hours, shop_locations(address_line, city, latitude, longitude), shop_labels(label, group_name), shop_photos(id, image_url, caption, sort_order), promos(id, title, description, code, starts_at, ends_at, is_active, is_featured), reviews(id, reviewer_id, reviewer_name, rating, comment, visit_tags, photo_url, is_verified_visit, is_published, created_at), menu_items(id, category_id, name, description, price_cents, currency, image_url, is_available, menu_categories(name), menu_item_tags(tag))"
     )
     .eq("status", "published");
 
+  if (shopId) query = query.eq("id", shopId);
+  const { data, error } = await query;
+
   if (error || !data) {
-    return demoShops;
+    return shopId ? demoShops.filter((shop) => shop.id === shopId) : demoShops;
   }
 
   return (data as unknown as ShopRow[]).map(mapShopRow).filter(Boolean) as CoffeeShop[];
 }
 
 export async function getShopById(id: string) {
-  const shops = await getPublicShops();
+  const shops = await getPublicShops(id);
   return shops.find((shop) => shop.id === id);
 }
 

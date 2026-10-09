@@ -5,6 +5,19 @@ import { Heart } from "lucide-react";
 
 const storageKey = "piko-picks-favorites";
 const legacyStorageKey = "bean-nearby-favorites";
+let favoritesRequest: Promise<string[]> | undefined;
+
+function loadFavorites() {
+  // Share a pending read across all cards, but refresh on subsequent visits.
+  if (!favoritesRequest) {
+    favoritesRequest = fetch("/api/favorites")
+      .then((response) => response.json())
+      .then((data: { favorites?: string[] }) => data.favorites ?? [])
+      .catch(() => [] as string[])
+      .finally(() => { favoritesRequest = undefined; });
+  }
+  return favoritesRequest;
+}
 
 type Props = {
   shopId: string;
@@ -15,20 +28,32 @@ export function FavoriteButton({ shopId, compact = false }: Props) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
+    let active = true;
+    let changed = false;
     setIsFavorite(readFavorites().includes(shopId));
-    fetch("/api/favorites")
-      .then((response) => response.json())
-      .then((data: { favorites?: string[] }) => {
-        if (data.favorites?.includes(shopId)) {
+    const syncFavorite = (event: Event) => {
+      const detail = (event as CustomEvent<{ shopId: string; favorite: boolean }>).detail;
+      if (detail.shopId === shopId) {
+        changed = true;
+        setIsFavorite(detail.favorite);
+      }
+    };
+    window.addEventListener("piko:favorite", syncFavorite);
+    loadFavorites()
+      .then((favorites) => {
+        if (active && !changed && favorites.includes(shopId)) {
           setIsFavorite(true);
         }
-      })
-      .catch(() => undefined);
+      });
+    return () => {
+      active = false;
+      window.removeEventListener("piko:favorite", syncFavorite);
+    };
   }, [shopId]);
 
   async function toggleFavorite() {
     const favorites = readFavorites();
-    const next = favorites.includes(shopId) ? favorites.filter((id) => id !== shopId) : [...favorites, shopId];
+    const next = isFavorite ? favorites.filter((id) => id !== shopId) : Array.from(new Set([...favorites, shopId]));
     localStorage.setItem(storageKey, JSON.stringify(next));
     const favorite = next.includes(shopId);
     setIsFavorite(favorite);

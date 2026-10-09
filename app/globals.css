@@ -47,6 +47,22 @@ select {
   @apply border border-roast/10 bg-white/90 shadow-panel;
 }
 
+/* Allow long shop names and narrow grid columns to shrink without clipping. */
+main :where(.grid > *, .flex > *) {
+  min-width: 0;
+}
+
+main :where(h1, h2, h3, p) {
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactive-lift {
+    transition: none;
+    transform: none;
+  }
+}
+
 .interactive-lift {
   @apply transition duration-300 ease-out hover:-translate-y-1 hover:shadow-lift;
 }

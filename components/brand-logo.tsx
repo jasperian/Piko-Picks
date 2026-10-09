@@ -8,7 +8,7 @@ export function BrandLogo() {
           aria-hidden="true"
           className="absolute inset-0 bg-no-repeat [image-rendering:auto]"
           style={{
-            backgroundImage: "url('/piko-pet.webp')",
+            backgroundImage: "url('/piko-pet-optimized.webp')",
             backgroundSize: "800% 1100%",
             backgroundPosition: "0% 0%"
           }}

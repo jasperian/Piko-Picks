@@ -1,4 +1,5 @@
 import { Camera } from "lucide-react";
+import { ContentImage } from "@/components/content-image";
 import type { ShopPhoto } from "@/lib/types";
 
 type Props = {
@@ -27,13 +28,13 @@ export function ShopPhotoGallery({ photos }: Props) {
       </div>
       <div className="mt-5 grid gap-3 lg:grid-cols-[1.2fr_0.8fr]">
         <figure className="overflow-hidden rounded-lg bg-linen">
-          <img src={featured.imageUrl} alt={featured.caption ?? ""} className="h-72 w-full object-cover" />
+          <div className="relative h-72"><ContentImage src={featured.imageUrl} alt={featured.caption ?? ""} sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" /></div>
           {featured.caption ? <figcaption className="p-3 text-sm font-medium text-ink/70">{featured.caption}</figcaption> : null}
         </figure>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
           {remaining.map((photo) => (
             <figure key={photo.id} className="overflow-hidden rounded-lg bg-linen">
-              <img src={photo.imageUrl} alt={photo.caption ?? ""} className="h-32 w-full object-cover" />
+              <div className="relative h-32"><ContentImage src={photo.imageUrl} alt={photo.caption ?? ""} sizes="(min-width: 640px) 40vw, 100vw" className="object-cover" /></div>
               {photo.caption ? <figcaption className="p-2 text-xs font-medium text-ink/65">{photo.caption}</figcaption> : null}
             </figure>
           ))}

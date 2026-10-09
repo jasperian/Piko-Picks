@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ContentImage } from "@/components/content-image";
 import { BadgeCheck, Compass, MapPin, Phone, Sparkles, Star } from "lucide-react";
 import { AnalyticsTracker } from "@/components/analytics-tracker";
 import { DirectionButtons } from "@/components/direction-buttons";
@@ -36,7 +37,7 @@ export default async function ShopDetailPage({ params, searchParams }: Props) {
     <main>
       <AnalyticsTracker shopId={shop.id} eventType="shop_view" />
       <section className="relative overflow-hidden">
-        <img src={shop.coverImageUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <ContentImage src={shop.coverImageUrl} alt="" priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(23,32,51,0.94),rgba(23,32,51,0.76)_48%,rgba(55,37,31,0.32))]" />
         <div className="relative mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_360px] lg:items-end lg:py-16">
           <div className="text-white">

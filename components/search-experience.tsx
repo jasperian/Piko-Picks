@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { ContentImage } from "@/components/content-image";
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -206,9 +208,11 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
     <main>
       <section className="relative mx-3 mt-4 overflow-hidden rounded-lg bg-midnight shadow-panel sm:mx-5">
         <div className="absolute inset-0">
-          <img
+          <ContentImage
             src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1800&q=85"
             alt=""
+            sizes="100vw"
+            priority
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-[linear-gradient(100deg,rgba(29,29,26,0.97),rgba(29,29,26,0.84)_52%,rgba(53,39,32,0.38))]" />
@@ -238,7 +242,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
             </div>
           </div>
 
-          <div className="surface rounded-lg p-5 backdrop-blur-xl sm:p-6">
+          <div className="surface min-w-0 rounded-lg p-5 backdrop-blur-xl sm:p-6">
             <div className="mb-4 flex items-center justify-between gap-3">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-clay">Search cafes</p>
@@ -246,7 +250,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
               </div>
               <span className="hidden rounded-md bg-lagoon/10 px-3 py-1 text-sm font-semibold text-lagoon sm:inline-flex">Live results</span>
             </div>
-            <div className="grid gap-3 lg:grid-cols-[1fr_230px]">
+            <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_230px]">
             <label className="relative block">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-ink/45" />
               <input
@@ -266,7 +270,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
             </button>
           </div>
 
-          <div className="mt-4 grid gap-3 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="mt-4 grid gap-3 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end">
             <label className="text-sm font-medium text-ink/75">
               Area
               <input
@@ -316,7 +320,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
               ) : null}
             </div>
             {showLabelFilters ? (
-              <div className="mt-4 grid gap-4 rounded-lg bg-linen p-4 lg:grid-cols-4">
+              <div className="mt-4 grid gap-4 rounded-lg bg-linen p-4 sm:grid-cols-2">
                 {shopLabelGroups.map((group) => (
                   <div key={group.groupName}>
                     <p className="text-xs font-semibold uppercase tracking-wide text-ink/50">{group.groupName}</p>
@@ -356,7 +360,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
                 <h2 id="piko-preferences-title" className="mt-2 text-3xl font-extrabold tracking-[-0.035em]">Tell Piko what feels right.</h2>
                 <p className="mt-3 text-sm leading-6 text-roast/70">Three taps turn the full directory into a useful shortlist.</p>
               </div>
-              <img src="/piko-tarsier.png" alt="" className="pointer-events-none absolute -bottom-10 -right-5 w-40 opacity-35 sm:w-48 lg:opacity-70" />
+              <Image src="/piko-tarsier.png" alt="" width={1214} height={1295} sizes="192px" className="pointer-events-none absolute -bottom-10 -right-5 h-auto w-40 opacity-35 sm:w-48 lg:opacity-70" />
             </div>
 
             <div className="p-6 sm:p-8">
@@ -444,7 +448,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
                     <span
                       aria-hidden="true"
                       className="absolute inset-0 bg-no-repeat"
-                      style={{ backgroundImage: "url('/piko-pet.webp')", backgroundSize: "800% 1100%", backgroundPosition: "0% 0%" }}
+                      style={{ backgroundImage: "url('/piko-pet-optimized.webp')", backgroundSize: "800% 1100%", backgroundPosition: "0% 0%" }}
                     />
                   </span>
                   <div>
@@ -472,7 +476,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
                 </Link>
               </div>
               <div className="relative min-h-64 lg:min-h-full">
-                <img src={pikoPick.shop.coverImageUrl} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                <ContentImage src={pikoPick.shop.coverImageUrl} alt="" sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(47,102,82,0.12),rgba(47,102,82,0.7))] lg:bg-[linear-gradient(90deg,#2F6652_0%,rgba(47,102,82,0.08)_32%)]" />
                 <div className="absolute bottom-5 right-5 rounded-md bg-midnight/75 px-3 py-2 text-sm font-semibold text-white backdrop-blur">
                   {pikoPick.shop.city}
@@ -575,7 +579,7 @@ export function SearchExperience({ shops, mapboxToken }: Props) {
             </div>
           </div>
         ) : (
-          <div className="mt-6 grid gap-5 lg:grid-cols-3">
+          <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {results.map((shop) => (
               <ShopCard
                 key={shop.id}
@@ -622,7 +626,7 @@ function MapResultRow({
         className="focus-ring grid w-full grid-cols-[64px_1fr_auto] items-center gap-3 rounded-lg p-2 text-left"
       >
         <span className="relative h-16 w-16 overflow-hidden rounded-md">
-          <img src={shop.coverImageUrl} alt="" className="h-full w-full object-cover" />
+          <ContentImage src={shop.coverImageUrl} alt="" sizes="64px" className="object-cover" />
           <span className={`absolute left-1 top-1 grid h-5 w-5 place-items-center rounded-full text-[10px] font-extrabold ${active ? "bg-gold text-midnight" : "bg-midnight text-white"}`}>{index + 1}</span>
         </span>
         <span className="min-w-0">
@@ -653,8 +657,8 @@ function ShopCard({ shop, query, isPikoPick = false, pikoReasons = [] }: { shop:
 
   return (
     <article className={`interactive-lift overflow-hidden rounded-lg bg-white shadow-panel ${isPikoPick ? "border-2 border-gold" : "border border-roast/10"}`}>
-      <div className="relative">
-        <img src={shop.coverImageUrl} alt="" className="h-52 w-full object-cover" />
+      <div className="relative h-52">
+        <ContentImage src={shop.coverImageUrl} alt="" sizes="(min-width: 1280px) 400px, (min-width: 768px) 50vw, 100vw" className="object-cover" />
         <div className={`absolute left-3 top-3 rounded-md px-2.5 py-1 text-xs font-bold text-white shadow-sm backdrop-blur ${openNow ? "bg-lagoon/95" : "bg-clay/95"}`}>
           {formatOpenStatus(shop.weeklyHours)}
         </div>

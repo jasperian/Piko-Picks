@@ -102,7 +102,7 @@ export async function ReviewsSection({ shopId, reviews }: Props) {
               <p className="mt-2 text-sm leading-6 text-ink/70">{review.comment}</p>
               {review.photoUrl ? (
                 <figure className="mt-3 overflow-hidden rounded-lg bg-crema">
-                  <img src={review.photoUrl} alt={`Visit photo shared by ${review.reviewerName}`} className="h-56 w-full object-cover" />
+                  <img src={review.photoUrl} alt={`Visit photo shared by ${review.reviewerName}`} loading="lazy" decoding="async" className="h-56 w-full object-cover" />
                   <figcaption className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-ink/55"><Camera className="h-3.5 w-3.5" />Photo from this visit</figcaption>
                 </figure>
               ) : null}
